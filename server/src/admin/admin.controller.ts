@@ -5,12 +5,13 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Request,
+  Req,
   UseGuards,
 } from "@nestjs/common";
 import { AdminService } from "./admin.service";
 import { CreateAdminDto } from "./dto/create-admin.dto";
 import { LocalAuthGuard } from "src/auth/local.auth.guard";
+import { Request } from "express";
 
 @Controller("admin")
 export class AdminController {
@@ -26,7 +27,7 @@ export class AdminController {
   @Post("/login")
   @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
-  login(@Request() req) {
-    return { admin: req.admin, msg: "Logged in" };
+  login(@Req() req: Request) {
+    return { admin: req.body, msg: "Logged in" };
   }
 }

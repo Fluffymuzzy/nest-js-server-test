@@ -1,17 +1,18 @@
 import {
   Body,
   Controller,
+  Get,
   Header,
   HttpCode,
   HttpStatus,
   Post,
-  Req,
+  Request,
   UseGuards,
 } from "@nestjs/common";
 import { AdminService } from "./admin.service";
 import { CreateAdminDto } from "./dto/create-admin.dto";
 import { LocalAuthGuard } from "src/auth/local.auth.guard";
-import { Request } from "express";
+import { AuthenticatedGuard } from "src/auth/authenticated.guard";
 
 @Controller("admin")
 export class AdminController {
@@ -27,7 +28,19 @@ export class AdminController {
   @Post("/login")
   @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
-  login(@Req() req: Request) {
-    return { admin: req.body, msg: "Logged in" };
+  login(@Request() req) {
+    return { admin: req.user, msg: "Logged in" };
+  }
+
+  @Get("/login-check")
+  @UseGuards(AuthenticatedGuard)
+  loginCheck(@Request() req) {
+    return req.user;
+  }
+
+  @Get("/logout")
+  logout(@Request() req) {
+    req.session.destroy();
+    return { msg: "session has ended" };
   }
 }

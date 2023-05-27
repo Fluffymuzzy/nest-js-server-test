@@ -18,7 +18,7 @@ export class AdminService {
   }
 
   async create(
-    createAdminDto: CreateAdminDto,
+    createAdminDto: CreateAdminDto
   ): Promise<Admin | { warningMessage: string }> {
     const admin = new Admin();
     const existingByUserName = await this.findOne({

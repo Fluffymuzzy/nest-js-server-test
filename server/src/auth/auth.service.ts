@@ -6,9 +6,9 @@ import { AdminService } from "../admin/admin.service";
 export class AuthService {
   constructor(private readonly adminService: AdminService) {}
 
-  async validate(username: string, password: string) {
+  async validateAdmin(username: string, password: string) {
     const admin = await this.adminService.findOne({
-      where: { username: username },
+      where: { username },
     });
 
     if (!admin) {
@@ -23,7 +23,7 @@ export class AuthService {
 
     if (admin && validatePassword) {
       return {
-        userId: admin.id,
+        id: admin.id,
         username: admin.username,
         email: admin.email,
       };

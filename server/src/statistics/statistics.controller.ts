@@ -5,14 +5,10 @@ export class StatisticsController {
   constructor(private readonly statisticsService: StatisticsService) {}
 
   @Get("sales")
-  async calculateSalesStats(
+  async getTotalSalesAmount(
     @Query("startDate") startDate: string,
     @Query("endDate") endDate: string
-  ) {
-    const statistics = await this.statisticsService.calculateSalesStats(
-      new Date(startDate),
-      new Date(endDate)
-    );
-    return statistics;
+  ): Promise<number> {
+    return this.statisticsService.getTotalSalesAmount(startDate, endDate);
   }
 }

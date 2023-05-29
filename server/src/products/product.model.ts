@@ -2,9 +2,6 @@ import { Table, Model, Column } from "sequelize-typescript";
 
 @Table
 export class Product extends Model<Product> {
-  static getAll(): Product[] | PromiseLike<Product[]> {
-      throw new Error("Method not implemented.");
-  }
   @Column
   manufacturer: string;
 

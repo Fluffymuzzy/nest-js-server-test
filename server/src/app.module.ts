@@ -5,8 +5,10 @@ import { SequelizeModule } from "@nestjs/sequelize";
 import { ConfigModule } from "@nestjs/config";
 import { SequelizeConfigService } from "./config/sequelizeConfig.service";
 import { databaseConfig } from "./config/configuration";
-import { AuthModule } from './auth/auth.module';
-import { ProductsModule } from './products/products.module';
+import { AuthModule } from "./auth/auth.module";
+import { ProductsModule } from "./products/products.module";
+import { SalesModule } from "./sales/sales.module";
+import { StatisticsModule } from "./statistics/statistics.module";
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { ProductsModule } from './products/products.module';
     AdminModule,
     AuthModule,
     ProductsModule,
+    StatisticsModule,
+    SalesModule,
   ],
   controllers: [],
   providers: [],

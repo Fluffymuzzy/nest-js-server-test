@@ -24,5 +24,4 @@ export class Sales extends Model<Sales> {
 
   @Column
   quantity: number;
-  totalAmount: number;
 }

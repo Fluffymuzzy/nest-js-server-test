@@ -1,4 +1,5 @@
 import {
+  Controller,
   Post,
   Body,
   Put,
@@ -8,16 +9,19 @@ import {
   Delete,
   Get,
 } from "@nestjs/common";
-import { Controller } from "@nestjs/common";
 import { ProductsService } from "./products.service";
 import { Product } from "./product.model";
+import { ValidationPipe } from "@nestjs/common";
+import { CreateProductDto } from "./dto/product.dto";
 
 @Controller("admin/products")
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
   // ----------------------
   @Post()
-  async createProduct(@Body() productData: Partial<Product>): Promise<Product> {
+  async createProduct(
+    @Body(new ValidationPipe()) productData: CreateProductDto
+  ): Promise<Product> {
     return this.productsService.createProduct(productData);
   }
   // ----------------------

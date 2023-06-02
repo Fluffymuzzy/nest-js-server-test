@@ -7,7 +7,9 @@ import {
 } from "sequelize-typescript";
 import { Product } from "src/products/product.model";
 
-@Table
+@Table({
+  timestamps: true,
+})
 export class Sales extends Model<Sales> {
   @ForeignKey(() => Product)
   @Column

@@ -5,7 +5,7 @@ import { Sales } from "src/sales/sales.model";
 export class StatisticsController {
   constructor(private readonly statisticsService: StatisticsService) {}
   // ----------------------
-  @Get("sales")
+  @Get("sales/positions")
   async getSalesStatistics(
     @Query("startDate") startDate: string,
     @Query("endDate") endDate: string
@@ -17,7 +17,7 @@ export class StatisticsController {
   async getSalesDetails(
     @Query("startDate") startDate: string,
     @Query("endDate") endDate: string
-  ): Promise<Sales[]> {
+  ): Promise<Sales[] | string> {
     return this.statisticsService.getSalesDetails(startDate, endDate);
   }
   // ----------------------

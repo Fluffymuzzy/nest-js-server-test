@@ -17,7 +17,10 @@ export class StatisticsService {
     return sales.length;
   }
   // ----------------------
-  async getSalesDetails(startDate: string, endDate: string): Promise<Sales[]> {
+  async getSalesDetails(
+    startDate: string,
+    endDate: string
+  ): Promise<Sales[] | string> {
     return this.salesService.getAllSalesByPeriod(startDate, endDate);
   }
   // ----------------------

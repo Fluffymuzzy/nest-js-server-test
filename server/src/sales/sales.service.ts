@@ -11,28 +11,40 @@ export class SalesService {
     @InjectModel(Product) private readonly productModel: typeof Product
   ) {}
   // ----------------------
-  async createSale(saleData: Partial<Sales>) {
+  async createSale(saleData: Partial<Sales>): Promise<Sales[]> {
     saleData.saleDate = new Date();
-    return this.saleModel.create(saleData);
+    const { productId, saleDate, price, quantity } = saleData;
+    const createdSale = await this.saleModel.create({
+      productId,
+      saleDate,
+      price,
+      quantity,
+    });
+    await createdSale.reload({ include: [this.productModel] });
+    return [createdSale];
   }
   // ----------------------
   async getAllSales(): Promise<Sales[]> {
-    return this.saleModel.findAll({ include: [Product] });
+    return this.saleModel.findAll({ include: [this.productModel] });
   }
 
   // ----------------------
   async getAllSalesByPeriod(
     startDate: string,
     endDate: string
-  ): Promise<Sales[]> {
+  ): Promise<Sales[] | string> {
     const soldProducts = await this.saleModel.findAll({
       where: {
         saleDate: {
           [Op.between]: [startDate, endDate],
         },
       },
-      include: [Product],
+      include: [this.productModel],
+      raw: true,
     });
+    if (soldProducts.length === 0) {
+      return "no data for this period";
+    }
     return soldProducts;
   }
   // ----------------------
@@ -65,7 +77,9 @@ export class SalesService {
           [Op.between]: [startDate, endDate],
         },
       },
+      raw: true,
     });
+    console.log(totalQuantity);
     return totalQuantity || "no data for this period";
   }
 }

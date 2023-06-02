@@ -10,10 +10,11 @@ async function bootstrap() {
       secret: "keyboard cat",
       resave: false,
       saveUninitialized: false,
-    }),
+    })
   );
   app.use(passport.initialize());
   app.use(passport.session());
+  // app.useGlobalPipes(new ValidationPipe());
   await app.listen(3000);
 }
 bootstrap();

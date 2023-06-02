@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { Product } from "./product.model";
+import { CreateProductDto } from "./dto/product.dto";
 
 @Injectable()
 export class ProductsService {
@@ -9,7 +10,7 @@ export class ProductsService {
     private productModel: typeof Product
   ) {}
   // ----------------------
-  async createProduct(productData: Partial<Product>): Promise<Product> {
+  async createProduct(productData: CreateProductDto): Promise<Product> {
     return this.productModel.create(productData);
   }
   // ----------------------

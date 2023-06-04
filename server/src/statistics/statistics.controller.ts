@@ -1,7 +1,7 @@
 import { Controller, Get, HttpCode, Query } from "@nestjs/common";
 import { StatisticsService } from "./statistics.service";
 import { Sales } from "src/sales/sales.model";
-@Controller("statistics")
+@Controller("admin/statistics")
 export class StatisticsController {
   constructor(private readonly statisticsService: StatisticsService) {}
   // ----------------------

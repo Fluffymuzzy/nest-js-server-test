@@ -1,80 +1,94 @@
 import {
-  IsString,
-  IsNumber,
-  Min,
-  IsNotEmpty,
-  MaxLength,
-  IsPositive,
   IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+  MaxLength,
+  Min,
 } from "class-validator";
 
-export class CreateProductDto {
+export class UpdateProductDto {
+  @IsOptional()
   @IsString()
-  @IsNotEmpty({ message: "Manufacter is required" })
   @MaxLength(50, { message: "Manufacter must not exceed 50 characters" })
-  manufacturer: string;
+  manufacturer?: string;
 
+  @IsOptional()
   @IsString()
-  @IsNotEmpty({ message: "Name is required" })
   @MaxLength(50, { message: "Name must not exceed 50 characters" })
-  name: string;
+  name?: string;
 
+  @IsOptional()
   @IsNumber({}, { message: "Price must be a number" })
   @IsPositive({ message: "Price must be a positive number" })
   @Min(0)
-  price: number;
+  price?: number;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty({ message: "Article is required" })
   @MaxLength(50, { message: "Name must not exceed 50 characters" })
-  article: string;
+  article?: string;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty({ message: "Description is required" })
-  description: string;
+  description?: string;
 
   @IsString()
+  @IsOptional()
   @IsNotEmpty({ message: "Image is required" })
-  images: string;
+  images?: string;
 
   @IsString()
+  @IsOptional()
   @IsNotEmpty({ message: "Type is required" })
   @MaxLength(50, { message: "Name must not exceed 50 characters" })
-  type: string;
+  type?: string;
 
+  @IsOptional()
   @IsNumber({}, { message: "Capacity must be a number" })
   @IsNotEmpty({ message: "Capacity is required" })
-  capacity: number;
+  capacity?: number;
 
+  @IsOptional()
   @IsNumber({}, { message: "Heatin element power must be a number" })
   @IsNotEmpty({ message: "Heatin element power is required" })
-  heating_element_power: number;
+  heating_element_power?: number;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty({ message: "Heatin element type is required" })
   @MaxLength(50, { message: "Name must not exceed 50 characters" })
-  heating_element_type: string;
+  heating_element_type?: string;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty({ message: "Material type is required" })
   @MaxLength(50, { message: "Name must not exceed 50 characters" })
-  material: string;
+  material?: string;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty({ message: "Pipe supply is required" })
   @MaxLength(50, { message: "Name must not exceed 50 characters" })
-  pipe_supply: string;
+  pipe_supply?: string;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty({ message: "Installation type is required" })
   @MaxLength(50, { message: "Name must not exceed 50 characters" })
-  installation: string;
+  installation?: string;
 
+  @IsOptional()
   @IsNumber({}, { message: "Indicate how much is available" })
   @IsPositive({ message: "Must be a positive number" })
   @Min(0)
-  in_stock: number;
+  in_stock?: number;
 
+  @IsOptional()
   @IsBoolean()
-  bestsellers: boolean;
+  bestsellers?: boolean;
 }

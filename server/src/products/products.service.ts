@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { Product } from "./product.model";
 import { CreateProductDto } from "./dto/product.dto";
+import { UpdateProductDto } from "./dto/updateProduct.dto";
 
 @Injectable()
 export class ProductsService {
@@ -16,7 +17,7 @@ export class ProductsService {
   // ----------------------
   async updateProduct(
     id: number,
-    productData: Partial<Product>
+    productData: UpdateProductDto
   ): Promise<Product> {
     await this.productModel.update(productData, {
       where: { id },

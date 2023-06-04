@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { Sales } from "./sales.model";
 import { InjectModel } from "@nestjs/sequelize";
 import { Product } from "src/products/product.model";
@@ -13,12 +13,16 @@ export class SalesService {
   // ----------------------
   async createSale(saleData: Partial<Sales>): Promise<Sales[]> {
     saleData.saleDate = new Date();
-    const { productId, saleDate, price, quantity } = saleData;
+    const { productId, saleDate, quantity } = saleData;
+    const product = await this.productModel.findByPk(productId);
+    if (!product) {
+      throw new NotFoundException("Product not found");
+    }
     const createdSale = await this.saleModel.create({
       productId,
       saleDate,
-      price,
       quantity,
+      price: product.price,
     });
     await createdSale.reload({ include: [this.productModel] });
     return [createdSale];

@@ -2,8 +2,9 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { Sales } from "./sales.model";
 import { InjectModel } from "@nestjs/sequelize";
 import { Product } from "src/products/product.model";
-
 import { Op, Sequelize } from "sequelize";
+import { CreateSaleDto } from "./dto/sales.dto";
+
 @Injectable()
 export class SalesService {
   constructor(
@@ -11,7 +12,7 @@ export class SalesService {
     @InjectModel(Product) private readonly productModel: typeof Product
   ) {}
   // ----------------------
-  async createSale(saleData: Partial<Sales>): Promise<Sales[]> {
+  async createSale(saleData: CreateSaleDto): Promise<Sales[]> {
     saleData.saleDate = new Date();
     const { productId, saleDate, quantity } = saleData;
     const product = await this.productModel.findByPk(productId);

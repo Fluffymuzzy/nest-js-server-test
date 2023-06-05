@@ -6,12 +6,15 @@ import { Admin } from "./admin.model";
 import { ProductsModule } from "src/products/products.module";
 import { Product } from "src/products/product.model";
 import { StatisticsModule } from "src/statistics/statistics.module";
+import { CallbacksModule } from "src/callbacks/callbacks.module";
+import { Callback } from "src/callbacks/callback.model";
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([Admin, Product]),
+    SequelizeModule.forFeature([Admin, Product, Callback]),
     ProductsModule,
     StatisticsModule,
+    CallbacksModule,
   ],
   controllers: [AdminController],
   providers: [AdminService],

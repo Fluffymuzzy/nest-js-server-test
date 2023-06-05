@@ -9,6 +9,7 @@ import { AuthModule } from "./auth/auth.module";
 import { ProductsModule } from "./products/products.module";
 import { SalesModule } from "./sales/sales.module";
 import { StatisticsModule } from "./statistics/statistics.module";
+import { CallbacksModule } from "./callbacks/callbacks.module";
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { StatisticsModule } from "./statistics/statistics.module";
     ProductsModule,
     StatisticsModule,
     SalesModule,
+    CallbacksModule,
   ],
   controllers: [],
   providers: [],

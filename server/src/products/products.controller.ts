@@ -13,6 +13,7 @@ import { ProductsService } from "./products.service";
 import { Product } from "./product.model";
 import { ValidationPipe } from "@nestjs/common";
 import { CreateProductDto } from "./dto/product.dto";
+import { UpdateProductDto } from "./dto/updateProduct.dto";
 
 @Controller("admin/products")
 export class ProductsController {
@@ -29,7 +30,7 @@ export class ProductsController {
   @HttpCode(HttpStatus.OK)
   async updateProduct(
     @Param("id") id: number,
-    @Body() productData: Partial<Product>
+    @Body(new ValidationPipe()) productData: UpdateProductDto
   ): Promise<Product> {
     return this.productsService.updateProduct(id, productData);
   }
@@ -37,6 +38,11 @@ export class ProductsController {
   @Delete(":id")
   async deleteProduct(@Param("id") id: number): Promise<string> {
     return this.productsService.deleteProduct(id);
+  }
+  // ----------------------
+  @Delete()
+  async deleteAllProducts(): Promise<void | string> {
+    return this.productsService.deleteAllProducts();
   }
   // ----------------------
   @Get()
@@ -50,4 +56,5 @@ export class ProductsController {
   async getProductById(@Param("id") id: number): Promise<Product | string> {
     return this.productsService.getProductById(id);
   }
+  // ----------------------
 }

@@ -41,6 +41,12 @@ export class ProductsService {
     }
   }
   // ----------------------
+  async deleteAllProducts(): Promise<void | string> {
+    await this.productModel.destroy({ truncate: true });
+    return "All data has been deleted";
+  }
+
+  // ----------------------
   async getAllProducts(): Promise<Product[]> {
     return this.productModel.findAll();
   }

@@ -8,13 +8,16 @@ import { Product } from "src/products/product.model";
 import { StatisticsModule } from "src/statistics/statistics.module";
 import { CallbacksModule } from "src/callbacks/callbacks.module";
 import { Callback } from "src/callbacks/callback.model";
+import { PriceList } from "src/price-list/price-list.model";
+import { PriceListModule } from "src/price-list/price-list.module";
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([Admin, Product, Callback]),
+    SequelizeModule.forFeature([Admin, Product, Callback, PriceList]),
     ProductsModule,
     StatisticsModule,
     CallbacksModule,
+    PriceListModule,
   ],
   controllers: [AdminController],
   providers: [AdminService],

@@ -1,5 +1,4 @@
 import { Module } from "@nestjs/common";
-
 import { AdminModule } from "./admin/admin.module";
 import { SequelizeModule } from "@nestjs/sequelize";
 import { ConfigModule } from "@nestjs/config";
@@ -10,6 +9,7 @@ import { ProductsModule } from "./products/products.module";
 import { SalesModule } from "./sales/sales.module";
 import { StatisticsModule } from "./statistics/statistics.module";
 import { CallbacksModule } from "./callbacks/callbacks.module";
+import { PriceListModule } from "./price-list/price-list.module";
 
 @Module({
   imports: [
@@ -26,6 +26,7 @@ import { CallbacksModule } from "./callbacks/callbacks.module";
     StatisticsModule,
     SalesModule,
     CallbacksModule,
+    PriceListModule,
   ],
   controllers: [],
   providers: [],

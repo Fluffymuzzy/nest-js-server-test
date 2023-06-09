@@ -6,30 +6,30 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Request,
   UseGuards,
+  Request,
 } from "@nestjs/common";
-import { AdminService } from "./admin.service";
-import { CreateAdminDto } from "./dto/create-admin.dto";
+import { UserService } from "./user.service";
+import { CreateUserDto } from "./dto/create-user.dto";
 import { AuthenticatedGuard } from "src/auth/authenticated.guard";
 import { LocalAuthGuard } from "./local.auth.guard";
 
-@Controller("admin")
-export class AdminController {
-  constructor(private readonly adminService: AdminService) {}
+@Controller("user")
+export class UserController {
+  constructor(private readonly userService: UserService) {}
   // ----------------------
   @Post("/signup")
   @HttpCode(HttpStatus.CREATED)
   @Header("Content-Type", "application/json")
-  createAdmin(@Body() createAdminDto: CreateAdminDto) {
-    return this.adminService.create(createAdminDto);
+  createUser(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
   }
   // ----------------------
   @Post("/login")
   @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
   login(@Request() req) {
-    return { admin: req.user, msg: "Logged in" };
+    return { user: req.user, msg: "Logged in" };
   }
   // ----------------------
   @Get("/login-check")

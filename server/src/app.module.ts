@@ -10,6 +10,7 @@ import { SalesModule } from "./sales/sales.module";
 import { StatisticsModule } from "./statistics/statistics.module";
 import { CallbacksModule } from "./callbacks/callbacks.module";
 import { PriceListModule } from "./price-list/price-list.module";
+import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { PriceListModule } from "./price-list/price-list.module";
     SalesModule,
     CallbacksModule,
     PriceListModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],

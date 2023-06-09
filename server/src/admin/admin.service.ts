@@ -10,13 +10,13 @@ export class AdminService {
     @InjectModel(Admin)
     private adminModel: typeof Admin
   ) {}
-
+  // ----------------------
   findOne(filter: {
     where: { id?: string; username?: string; email?: string };
   }): Promise<Admin> {
     return this.adminModel.findOne({ ...filter });
   }
-
+  // ----------------------
   async create(
     createAdminDto: CreateAdminDto
   ): Promise<Admin | { warningMessage: string }> {
@@ -29,7 +29,7 @@ export class AdminService {
     });
 
     if (existingByUserName) {
-      return { warningMessage: `a user with this name already exists!` };
+      return { warningMessage: `a admin with this name already exists!` };
     }
     if (existingByEmail) {
       return { warningMessage: `email is already in use !` };

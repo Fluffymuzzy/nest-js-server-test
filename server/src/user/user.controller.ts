@@ -12,7 +12,7 @@ import {
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { AuthenticatedGuard } from "src/auth/authenticated.guard";
-import { LocalAuthGuard } from "./local.auth.guard";
+import { LocalAuthGuard } from "./utils/local.auth.guard";
 
 @Controller("user")
 export class UserController {

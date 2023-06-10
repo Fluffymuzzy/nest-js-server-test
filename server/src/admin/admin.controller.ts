@@ -12,7 +12,8 @@ import {
 import { AdminService } from "./admin.service";
 import { CreateAdminDto } from "./dto/create-admin.dto";
 import { AuthenticatedGuard } from "src/auth/authenticated.guard";
-import { LocalAuthGuard } from "./local.auth.guard";
+import { LocalAuthGuard } from "./utils/local.auth.guard";
+import { GoogleAuthGuard } from "./utils/google.auth.guard";
 
 @Controller("admin")
 export class AdminController {
@@ -42,5 +43,17 @@ export class AdminController {
   logout(@Request() req) {
     req.session.destroy();
     return { msg: "session has ended" };
+  }
+  // ---------------------- google auth
+  @Get("google/login")
+  @UseGuards(GoogleAuthGuard)
+  googleLogin() {
+    return { msg: "google" };
+  }
+  // ----------------------
+  @Get("google/redirect")
+  @UseGuards(GoogleAuthGuard)
+  googleRedirect() {
+    return { msg: "google redirect" };
   }
 }

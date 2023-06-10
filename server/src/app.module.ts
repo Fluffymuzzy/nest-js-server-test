@@ -11,6 +11,14 @@ import { StatisticsModule } from "./statistics/statistics.module";
 import { CallbacksModule } from "./callbacks/callbacks.module";
 import { PriceListModule } from "./price-list/price-list.module";
 import { UserModule } from "./user/user.module";
+import { AppController } from "./app.controller";
+import { AdminController } from "./admin/admin.controller";
+import { UserController } from "./user/user.controller";
+import { PriceListController } from "./price-list/price-list.controller";
+import { StatisticsController } from "./statistics/statistics.controller";
+import { ProductsController } from "./products/products.controller";
+import { SalesController } from "./sales/sales.controller";
+import { CallbacksController } from "./callbacks/callbacks.controller";
 
 @Module({
   imports: [
@@ -30,7 +38,16 @@ import { UserModule } from "./user/user.module";
     PriceListModule,
     UserModule,
   ],
-  controllers: [],
+  controllers: [
+    AppController,
+    AdminController,
+    UserController,
+    StatisticsController,
+    PriceListController,
+    ProductsController,
+    SalesController,
+    CallbacksController,
+  ],
   providers: [],
 })
 export class AppModule {}

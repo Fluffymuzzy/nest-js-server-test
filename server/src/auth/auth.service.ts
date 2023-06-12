@@ -1,4 +1,3 @@
-import { CreateAdminDto } from "./../admin/dto/create-admin.dto";
 import { Profile } from "passport-google-oauth20";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import * as bcrypt from "bcrypt";
@@ -61,7 +60,6 @@ export class AuthService {
     return admin;
   }
   // ----------------------
-
   async validateUser(username: string, password: string) {
     const user = await this.userService.findOne({
       where: { username },
@@ -85,5 +83,25 @@ export class AuthService {
       };
     }
     return null;
+  }
+  // ----------------------
+  async validateGoogleUser(profile: Profile) {
+    const email = profile.emails[0].value;
+    const user = await this.userService.findOneByEmail(email);
+
+    if (!user) {
+      const newUser = await this.userService.createUserFromGoogle(profile);
+      return newUser;
+    }
+
+    user.username = profile.displayName;
+    user.email = profile.emails[0].value;
+    await this.userService.updateUser(user, {
+      username: user.username,
+      password: user.password,
+      email: user.email,
+    });
+
+    return user;
   }
 }

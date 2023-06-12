@@ -5,7 +5,7 @@ import { PassportModule } from "@nestjs/passport";
 import { LocalUserStrategy, LocalAdminStrategy } from "./local.strategy";
 import { SessionSerializer } from "./session.serializer";
 import { UserModule } from "src/user/user.module";
-import { GoogleStrategy } from "./google.strategy";
+import { AdminGoogleStrategy, UserGoogleStrategy } from "./google.strategy";
 
 @Module({
   imports: [
@@ -18,7 +18,8 @@ import { GoogleStrategy } from "./google.strategy";
     LocalUserStrategy,
     LocalAdminStrategy,
     SessionSerializer,
-    GoogleStrategy,
+    AdminGoogleStrategy,
+    UserGoogleStrategy,
   ],
 })
 export class AuthModule {}

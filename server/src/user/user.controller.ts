@@ -13,6 +13,7 @@ import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { AuthenticatedGuard } from "src/auth/authenticated.guard";
 import { LocalAuthGuard } from "./utils/local.auth.guard";
+import { GoogleAuthGuard } from "./utils/google.auth.guard";
 
 @Controller("user")
 export class UserController {
@@ -42,5 +43,17 @@ export class UserController {
   logout(@Request() req) {
     req.session.destroy();
     return { msg: "session has ended" };
+  }
+  // ---------------------- google auth
+  @Get("google/login")
+  @UseGuards(GoogleAuthGuard)
+  googleLogin() {
+    return { msg: "google user" };
+  }
+  // ----------------------
+  @Get("google/redirect")
+  @UseGuards(GoogleAuthGuard)
+  googleRedirect(@Request() req) {
+    return { user: req.user, msg: "Logged in" };
   }
 }

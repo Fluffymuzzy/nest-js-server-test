@@ -3,6 +3,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { User } from "./user.model";
 import { CreateUserDto } from "./dto/create-user.dto";
+import { Profile } from "passport-google-oauth20";
 
 @Injectable()
 export class UserService {
@@ -36,6 +37,70 @@ export class UserService {
     user.username = createUserDto.username;
     user.password = hashedPassword;
     user.email = createUserDto.email;
+
+    return user.save();
+  }
+  // ----------------------
+  async findOneByEmail(email: string): Promise<User> {
+    return this.userModel.findOne({
+      where: { email },
+    });
+  }
+  // ----------------------
+  async createUserFromGoogle(
+    profile: Profile
+  ): Promise<User | { warningMessage: string }> {
+    const { displayName, emails } = profile;
+    const email = emails?.[0].value;
+
+    const existingUser = await this.findOneByEmail(email);
+
+    if (existingUser) {
+      return { warningMessage: `admin with this name already exists!` };
+    }
+
+    const user = new User();
+    user.username = displayName;
+    user.email = email;
+
+    const randomPassword = Math.random().toString(36).slice(-8);
+    const hashedRandomPassword = await bcrypt.hash(randomPassword, 10);
+
+    user.password = hashedRandomPassword;
+
+    return user.save();
+  }
+  // ----------------------
+  async updateUser(
+    user: User,
+    createUserDto: CreateUserDto
+  ): Promise<User | { warningMessage: string }> {
+    const { username, email, password } = createUserDto;
+
+    if (username) {
+      const existingByUsername = await this.findOne({ where: { username } });
+
+      if (existingByUsername && existingByUsername.id !== user.id) {
+        return { warningMessage: `User with this username already exists!` };
+      }
+
+      user.username = username;
+    }
+
+    if (email) {
+      const existingByEmail = await this.findOne({ where: { email } });
+
+      if (existingByEmail && existingByEmail.id !== user.id) {
+        return { warningMessage: `Email is already in use!` };
+      }
+
+      user.email = email;
+    }
+
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 9);
+      user.password = hashedPassword;
+    }
 
     return user.save();
   }

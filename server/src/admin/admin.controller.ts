@@ -53,7 +53,7 @@ export class AdminController {
   // ----------------------
   @Get("google/redirect")
   @UseGuards(GoogleAuthGuard)
-  googleRedirect() {
-    return { msg: "google redirect" };
+  googleRedirect(@Request() req) {
+    return { user: req.user, msg: "Logged in" };
   }
 }

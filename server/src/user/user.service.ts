@@ -19,9 +19,7 @@ export class UserService {
     return this.userModel.findOne({ ...filter });
   }
   // ----------------------
-  async create(
-    createUserDto: CreateUserDto
-  ): Promise<User | { warningMessage: string }> {
+  async create(createUserDto: CreateUserDto): Promise<User | string> {
     const user = new User();
 
     const existingByEmail = await this.findOne({
@@ -29,7 +27,7 @@ export class UserService {
     });
 
     if (existingByEmail) {
-      return { warningMessage: `email is already in use !` };
+      return `Email is already in use !`;
     }
 
     const hashedPassword = await bcrypt.hash(createUserDto.password, 12);
@@ -47,16 +45,14 @@ export class UserService {
     });
   }
   // ----------------------
-  async createUserFromGoogle(
-    profile: Profile
-  ): Promise<User | { warningMessage: string }> {
+  async createUserFromGoogle(profile: Profile): Promise<User | string> {
     const { displayName, emails } = profile;
     const email = emails?.[0].value;
 
     const existingUser = await this.findOneByEmail(email);
 
     if (existingUser) {
-      return { warningMessage: `admin with this name already exists!` };
+      return `Users with this name already exists!`;
     }
 
     const user = new User();
@@ -74,14 +70,14 @@ export class UserService {
   async updateUser(
     user: User,
     createUserDto: CreateUserDto
-  ): Promise<User | { warningMessage: string }> {
+  ): Promise<User | string> {
     const { username, email, password } = createUserDto;
 
     if (username) {
       const existingByUsername = await this.findOne({ where: { username } });
 
       if (existingByUsername && existingByUsername.id !== user.id) {
-        return { warningMessage: `User with this username already exists!` };
+        return `User with this username already exists!`;
       }
 
       user.username = username;
@@ -91,7 +87,7 @@ export class UserService {
       const existingByEmail = await this.findOne({ where: { email } });
 
       if (existingByEmail && existingByEmail.id !== user.id) {
-        return { warningMessage: `Email is already in use!` };
+        return `Email is already in use!`;
       }
 
       user.email = email;

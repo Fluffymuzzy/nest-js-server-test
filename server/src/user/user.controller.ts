@@ -48,7 +48,7 @@ export class UserController {
   @Get("google/login")
   @UseGuards(GoogleAuthGuard)
   googleLogin() {
-    return { msg: "google user" };
+    return { msg: "google" };
   }
   // ----------------------
   @Get("google/redirect")

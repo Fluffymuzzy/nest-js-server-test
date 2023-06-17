@@ -2,6 +2,7 @@ import { PassportStrategy } from "@nestjs/passport";
 import { Profile, Strategy, VerifyCallback } from "passport-google-oauth20";
 import { AuthService } from "./auth.service";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { Admin } from "src/admin/admin.model";
 
 @Injectable()
 export class AdminGoogleStrategy extends PassportStrategy(
@@ -19,21 +20,16 @@ export class AdminGoogleStrategy extends PassportStrategy(
   }
 
   async validate(
-    accessToken: string,
-    refreshToken: string,
-    profile: Profile,
-    done: VerifyCallback
+    _accessToken: string,
+    _refreshToken: string,
+    profile: Profile
   ) {
-    const admin = await this.authService.validateGoogleAdmin(
-      accessToken,
-      refreshToken,
-      profile
-    );
-
-    if (admin) {
-      done(null, admin);
-    } else {
-      done(new UnauthorizedException("Invalid credentials"));
+    console.log(profile.emails);
+    try {
+      const admin = await this.authService.validateGoogleAdmin(profile);
+      return admin;
+    } catch (err) {
+      console.error(err);
     }
   }
 }
@@ -54,17 +50,16 @@ export class UserGoogleStrategy extends PassportStrategy(
   }
 
   async validate(
-    accessToken: string,
-    refreshToken: string,
-    profile: Profile,
-    done: VerifyCallback
+    _accessToken: string,
+    _refreshToken: string,
+    profile: Profile
   ) {
-    const user = await this.authService.validateGoogleUser(profile);
-
-    if (user) {
-      done(null, user);
-    } else {
-      done(new UnauthorizedException("Invalid credentials"));
+    console.log(profile.emails);
+    try {
+      const user = await this.authService.validateGoogleUser(profile);
+      return user;
+    } catch (err) {
+      console.error(err);
     }
   }
 }

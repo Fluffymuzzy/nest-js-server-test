@@ -36,29 +36,38 @@ export class AuthService {
     return null;
   }
   // ----------------------
-  async validateGoogleAdmin(
-    accessToken: string,
-    refreshToken: string,
-    profile: Profile
-  ) {
-    const email = profile.emails[0].value;
-    const admin = await this.adminService.findOneByEmail(email);
+  async validateGoogleAdmin(profile: Profile) {
+    try {
+      const email =
+        profile.emails && profile.emails.length > 0
+          ? profile.emails[0].value
+          : null;
 
-    if (!admin) {
-      const newAdmin = await this.adminService.createAdminFromGoogle(profile);
-      return newAdmin;
+      if (!email) {
+        return new UnauthorizedException("Invalid credentials");
+      }
+
+      const admin = await this.adminService.findOneByEmail(email);
+
+      if (!admin) {
+        const newAdmin = await this.adminService.createAdminFromGoogle(profile);
+        return newAdmin;
+      }
+
+      admin.username = profile.displayName;
+      admin.email = email;
+      await this.adminService.updateAdmin(admin, {
+        username: admin.username,
+        password: admin.password,
+        email: admin.email,
+      });
+
+      return admin;
+    } catch (error) {
+      console.error(error);
     }
-
-    admin.username = profile.displayName;
-    admin.email = profile.emails[0].value;
-    await this.adminService.updateAdmin(admin, {
-      username: admin.username,
-      password: admin.password,
-      email: admin.email,
-    });
-
-    return admin;
   }
+
   // ----------------------
   async validateUser(username: string, password: string) {
     const user = await this.userService.findOne({
@@ -86,22 +95,30 @@ export class AuthService {
   }
   // ----------------------
   async validateGoogleUser(profile: Profile) {
-    const email = profile.emails[0].value;
-    const user = await this.userService.findOneByEmail(email);
+    try {
+      const email =
+        profile.emails && profile.emails.length > 0
+          ? profile.emails[0].value
+          : null;
 
-    if (!user) {
-      const newUser = await this.userService.createUserFromGoogle(profile);
-      return newUser;
+      const user = await this.userService.findOneByEmail(email);
+
+      if (!user) {
+        const newUser = await this.userService.createUserFromGoogle(profile);
+        return newUser;
+      }
+
+      user.username = profile.displayName;
+      user.email = email;
+      await this.userService.updateUser(user, {
+        username: user.username,
+        password: user.password,
+        email: user.email,
+      });
+
+      return user;
+    } catch (error) {
+      console.error(error);
     }
-
-    user.username = profile.displayName;
-    user.email = profile.emails[0].value;
-    await this.userService.updateUser(user, {
-      username: user.username,
-      password: user.password,
-      email: user.email,
-    });
-
-    return user;
   }
 }

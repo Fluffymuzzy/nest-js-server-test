@@ -48,12 +48,12 @@ export class AdminController {
   @Get("google/login")
   @UseGuards(GoogleAuthGuard)
   googleLogin() {
-    return { msg: "google" };
+    return { msg: "Logged in" };
   }
   // ----------------------
   @Get("google/redirect")
   @UseGuards(GoogleAuthGuard)
   googleRedirect(@Request() req) {
-    return { user: req.user, msg: "Logged in" };
+    return { msg: "Logan" };
   }
 }

@@ -1,8 +1,7 @@
 import { PassportStrategy } from "@nestjs/passport";
 import { Profile, Strategy, VerifyCallback } from "passport-google-oauth20";
 import { AuthService } from "./auth.service";
-import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { Admin } from "src/admin/admin.model";
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class AdminGoogleStrategy extends PassportStrategy(
@@ -20,16 +19,24 @@ export class AdminGoogleStrategy extends PassportStrategy(
   }
 
   async validate(
-    _accessToken: string,
-    _refreshToken: string,
-    profile: Profile
-  ) {
-    console.log(profile.emails);
+    accessToken: string,
+    refreshToken: string,
+    profile: Profile,
+    done: VerifyCallback
+  ): Promise<any> {
     try {
-      const admin = await this.authService.validateGoogleAdmin(profile);
-      return admin;
+      console.log(accessToken);
+      console.log(refreshToken);
+
+      const admin = await this.authService.validateGoogleAdmin(
+        accessToken,
+        refreshToken,
+        profile
+      );
+      done(null, admin);
     } catch (err) {
       console.error(err);
+      done(err);
     }
   }
 }

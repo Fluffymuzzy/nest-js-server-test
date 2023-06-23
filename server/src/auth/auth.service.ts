@@ -1,5 +1,5 @@
 import { Profile } from "passport-google-oauth20";
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { Injectable, UnauthorizedException, Request } from "@nestjs/common";
 import * as bcrypt from "bcrypt";
 import { AdminService } from "../admin/admin.service";
 import { UserService } from "../user/user.service";
@@ -36,12 +36,19 @@ export class AuthService {
     return null;
   }
   // ----------------------
-  async validateGoogleAdmin(profile: Profile) {
+  async validateGoogleAdmin(
+    accessToken: string,
+    refreshToken: string,
+    profile: Profile
+  ) {
     try {
       const email =
         profile.emails && profile.emails.length > 0
           ? profile.emails[0].value
           : null;
+
+      console.log(accessToken);
+      console.log(refreshToken);
 
       if (!email) {
         return new UnauthorizedException("Invalid credentials");
@@ -62,12 +69,11 @@ export class AuthService {
         email: admin.email,
       });
 
-      return admin;
+      return null;
     } catch (error) {
       console.error(error);
     }
   }
-
   // ----------------------
   async validateUser(username: string, password: string) {
     const user = await this.userService.findOne({

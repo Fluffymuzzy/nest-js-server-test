@@ -54,6 +54,6 @@ export class UserController {
   @Get("google/redirect")
   @UseGuards(GoogleAuthGuard)
   googleRedirect(@Request() req) {
-    return { user: req.user, msg: "Logged in" };
+    return { msg: "google" };
   }
 }

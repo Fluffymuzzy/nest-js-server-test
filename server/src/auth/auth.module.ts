@@ -6,12 +6,13 @@ import { LocalUserStrategy, LocalAdminStrategy } from "./local.strategy";
 import { SessionSerializer } from "./session.serializer";
 import { UserModule } from "src/user/user.module";
 import { AdminGoogleStrategy, UserGoogleStrategy } from "./google.strategy";
-
+import { ConfigModule } from "@nestjs/config";
 @Module({
   imports: [
     AdminModule,
     UserModule,
     PassportModule.register({ session: true }),
+    ConfigModule.forRoot(),
   ],
   providers: [
     AuthService,

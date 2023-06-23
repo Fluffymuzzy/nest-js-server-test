@@ -8,6 +8,7 @@ import {
   Post,
   Request,
   UseGuards,
+  Response,
 } from "@nestjs/common";
 import { AdminService } from "./admin.service";
 import { CreateAdminDto } from "./dto/create-admin.dto";
@@ -47,13 +48,15 @@ export class AdminController {
   // ---------------------- google auth
   @Get("google/login")
   @UseGuards(GoogleAuthGuard)
-  googleLogin() {
-    return { msg: "Logged in" };
-  }
+  googleLogin() {}
   // ----------------------
   @Get("google/redirect")
   @UseGuards(GoogleAuthGuard)
   googleRedirect(@Request() req) {
-    return { msg: "Logan" };
+    console.log(req.sessionID);
+    console.log(req.session);
+    console.log(req.user);
+    return this.adminService.googleAuthLogin(req);
   }
+  // ----------------------
 }

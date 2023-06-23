@@ -3,7 +3,7 @@ import { Injectable } from "@nestjs/common";
 import { Admin } from "./admin.model";
 import { InjectModel } from "@nestjs/sequelize";
 import { CreateAdminDto } from "./dto/create-admin.dto";
-import { Profile, VerifyCallback } from "passport-google-oauth20";
+import { Profile } from "passport-google-oauth20";
 
 @Injectable()
 export class AdminService {
@@ -105,5 +105,16 @@ export class AdminService {
     }
 
     return admin.save();
+  }
+  // ----------------------
+  googleAuthLogin(req) {
+    if (!req.user) {
+      return "No user from google";
+    }
+
+    return {
+      message: "User information from google",
+      user: req.user,
+    };
   }
 }
